@@ -158,7 +158,7 @@ def admin(update, context):
 def main():
     logging.basicConfig(level=logging.INFO)
 
-    token = ""
+    token = "906705617:AAE4QgiX_7OSlyF5bFwKSof_-UUlF0C1OAs"
 
     bot = telegram.Bot(token=token)
     persistence = PicklePersistence(filename="persistent_bot_data")

@@ -80,7 +80,8 @@ def add_stars(user, amount, job):
     conn.close()
 
 def get_todays_stats(context):
-    msg = "So stehts heute:"
+    price = context.bot_data["price"]
+    msg = "Heute geht es um den Preis: \"{}\". Bisher stehts:".format(price)
     for user in context.bot_data["active_users"]:
         msg += "\n\n{}:".format(user.first_name)
 
@@ -154,6 +155,14 @@ def admin(update, context):
     context.bot_data.clear()
     context.user_data.clear()
 
+def preis(update, context):
+    if len(context.args) > 0:
+        price = context.args[0]
+        context.bot_data["price"] = price
+        context.bot.send_message(chat_id=update.effective_user.id, text="Der neue Preis für heute ist also \"{}\"".format(price))
+    else:
+        context.bot.send_message(chat_id=update.effective_user.id, text="Du hast keinen Preis angegeben. Bitte gibt den Preis im Format: \"/preis Dein_Preis\" an.")
+
 
 def main():
     logging.basicConfig(level=logging.INFO)
@@ -171,8 +180,11 @@ def main():
     heute_handler = CommandHandler("heute", heute)
     dispatcher.add_handler(heute_handler)
 
-    admin_handler = CommandHandler("admin", admin)
-    dispatcher.add_handler(admin_handler)
+    preis_handler = CommandHandler("preis", preis)
+    dispatcher.add_handler(preis_handler)
+
+    # admin_handler = CommandHandler("admin", admin)
+    # dispatcher.add_handler(admin_handler)
 
     message_handler = MessageHandler(Filters.text, message)
     dispatcher.add_handler(message_handler)

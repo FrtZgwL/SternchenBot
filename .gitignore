@@ -8,6 +8,7 @@ persistent_bot_data
 experiments.py
 *.db
 *.json
+*.pkl
 
 # Ignore notes
 Notes/

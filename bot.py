@@ -8,6 +8,7 @@ from telegram.ext import PicklePersistence
 from json import dumps
 import sqlite3
 import logging
+import pickle
 
 # TODO: Man kann ohne sich in die Benutzerliste einzutragen dem Bot schreiben
 
@@ -37,14 +38,6 @@ def start(update, context):
         context.user_data["current_job"] = "Kleinscheiß"
         bot.send_message(chat_id=user.id, text="Hallo {}, ich habe dich zu meiner Benutzer-Liste hinzugefügt.".format(user.first_name), reply_markup=keyboard_str)
         # TODO: Menü schicken
-
-    conn = sqlite3.connect("sql_data.db")
-    c = conn.cursor()
-
-    c.execute("CREATE TABLE IF NOT EXISTS stars (id integer primary key autoincrement, user_name text, _date text, job text, stars integer);")
-
-    conn.commit()
-    conn.close()
 
 # def reset_day():
 
@@ -167,10 +160,11 @@ def preis(update, context):
 def main():
     logging.basicConfig(level=logging.INFO)
 
-    token = "906705617:AAE4QgiX_7OSlyF5bFwKSof_-UUlF0C1OAs"
+    with open("token.pkl", "rb") as f:
+        token = pickle.load(f)
 
     bot = telegram.Bot(token=token)
-    persistence = PicklePersistence(filename="persistent_bot_data")
+    persistence = PicklePersistence(filename="persistent_bot_data.pkl")
     updater = Updater(token=token, persistence=persistence, use_context=True)
     dispatcher = updater.dispatcher
 

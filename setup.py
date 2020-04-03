@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Configure this
 
-TOKEN = "698839060:AAEPazfjo1gvbO-DFxi6cbpq-rAOIVJPJ2g"
+TOKEN = "PUT YOUR TOKEN HERE"
 
 
 # Save Token
